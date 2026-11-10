@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#120f20">
+  <title>Our Countdown</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
+      padding: 24px; color: #fff; text-align: center;
+      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+      background: radial-gradient(ellipse at top, #392348 0%, #171326 48%, #0b0a12 100%);
+    }
+    main { width: min(680px, 100%); }
+    .heart { color: #ff8da8; font-size: 30px; margin-bottom: 18px; }
+    h1 { font-weight: 500; letter-spacing: .04em; margin: 0 0 12px; font-size: clamp(2rem, 7vw, 3.4rem); }
+    .subtitle { color: #d9cddd; margin: 0 0 36px; font-size: 1rem; }
+    .timer {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    }
+    .unit {
+      padding: 22px 8px; border: 1px solid #ffffff26; border-radius: 18px;
+      background: #ffffff0d; backdrop-filter: blur(8px);
+    }
+    .number { display: block; font-size: clamp(2rem, 8vw, 4rem); font-weight: 650; font-variant-numeric: tabular-nums; }
+    .label { display: block; margin-top: 8px; color: #d9cddd; font-size: .75rem; letter-spacing: .16em; }
+    .message { margin-top: 30px; color: #f0dce7; font-size: 1.05rem; }
+    .small { margin-top: 24px; color: #a99bb1; font-size: .8rem; }
+    @media (max-width: 480px) {
+      .timer { gap: 7px; }
+      .unit { padding: 17px 4px; border-radius: 13px; }
+      .label { font-size: .62rem; letter-spacing: .08em; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="heart">♥</div>
+    <h1>Until We're Together</h1>
+    <p class="subtitle">Every second brings us closer.</p>
+    <section class="timer" aria-label="Countdown">
+      <div class="unit"><span class="number" id="days">954</span><span class="label">DAYS</span></div>
+      <div class="unit"><span class="number" id="hours">00</span><span class="label">HOURS</span></div>
+      <div class="unit"><span class="number" id="minutes">00</span><span class="label">MINUTES</span></div>
+      <div class="unit"><span class="number" id="seconds">00</span><span class="label">SECONDS</span></div>
+    </section>
+    <p class="message" id="message">No matter the distance, we're counting down together. ♥</p>
+    <p class="small">A little closer, every second.</p>
+  </main>
+  <script>
+    // Fixed end moment: 22,896 hours after November 10, 2026 at 19:51 (UTC+01:00).
+    const target = new Date("2029-06-22T19:51:00+01:00").getTime();
+    const pad = n => String(n).padStart(2, "0");
+    function update() {
+      const remaining = Math.max(0, target - Date.now());
+      const totalSeconds = Math.floor(remaining / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = pad(hours);
+      document.getElementById("minutes").textContent = pad(minutes);
+      document.getElementById("seconds").textContent = pad(seconds);
+      if (remaining === 0) {
+        document.getElementById("message").textContent = "The countdown is over. ♥";
+      }
+    }
+    update();
+    setInterval(update, 1000);
+  </script>
+</body>
+</html>
